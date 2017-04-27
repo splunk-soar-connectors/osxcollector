@@ -1,3 +1,6 @@
 [submodule "osxc"]
 	path = osxc
 	url = ssh://git@prod-bb-1.phantom.local:7999/PER/osxcollector.git
+[submodule "paramikossh"]
+	path = paramikossh
+	url = ssh://git@prod-bb-1.phantom.local:7999/PER/paramikossh.git
