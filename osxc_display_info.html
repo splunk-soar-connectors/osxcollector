@@ -1,0 +1,586 @@
+{% extends 'widgets/widget_template.html' %}
+{% load custom_template %}
+
+{% block title_color %}{{ title_color|default:'white' }}{% endblock %}
+{% block title_text_color %}{{ title_text_color|default:'rgb(101, 71, 150)' }}{% endblock %}
+{% block body_color %}{{ body_color|default:'white' }}{% endblock %}
+{% block body_text_color %}{{ body_text_color|default:'black' }}{% endblock %}
+{% block custom_title_prop %}{% if title_logo %}style="background-size: auto 60%; background-position: 50%; background-repeat: no-repeat; background-image: url('/app_resource/{{ title_logo }}');"{% endif %}{% endblock %}
+{% block title1 %}{{ title1 }}{% endblock %}
+{% block title2 %}{{ title2 }}{% endblock %}
+{% block custom_tools %}
+{% endblock %}
+
+{% block widget_content %} <!-- Main Start Block -->
+
+<!-- 
+File: ./osxc_display_info.html
+
+Copyright (c) Phantom Cyber Corporation, 2016
+
+This unpublished material is proprietary to Phantom Cyber.
+All rights reserved. The methods and
+techniques described herein are considered trade secrets
+and/or confidential. Reproduction or distribution, in whole
+or in part, is forbidden except by express written permission
+of Phantom Cyber Corporation.
+-->
+<!--
+Now that I've spent hours on this, I have come to the conclusion that even though it doesn't look as nice,
+dynamically generating all the tabs would be so much easier. I don't know why I thought that was a bad idea
+when I started writing this
+-->
+
+<style>
+
+a:link {
+  color: black;
+}
+
+a:hover {
+  text-decoration:underline;
+}
+
+a:visited {
+  color: black;
+}
+
+.wf-table-vertical {
+  width: initial;
+  font-size: 12px;
+}
+
+.wf-table-vertical td {
+  padding: 5px;
+  border: 1px solid rgb(234, 234, 234);
+}
+
+.wf-table-horizontal {
+  width: initial;
+  border: 1px solid rgb(234, 234, 234);
+  font-size: 12px;
+}
+
+.wf-table-horizontal th {
+  text-align: center;
+  border: 1px solid rgb(234, 234, 234);
+  text-transform: uppercase;
+  font-weight: normal;
+  color: rgb(108, 129, 139);
+  padding: 5px;
+}
+
+.wf-table-horizontal td {
+  border: 1px solid rgb(234, 234, 234);
+  padding: 5px;
+  padding-left: 4px;
+  width: 200;
+  overflow: auto;
+}
+
+.wf-h3-style {
+  font-size : 20px
+}
+
+.wf-h4-style {
+  font-size : 16px
+}
+
+.wf-h5-style {
+  font-size : 14px
+}
+.wf-subheader-style {
+  font-size : 12px
+}
+
+.ana_subject_content {
+  margin-bottom: 20px
+}
+
+</style>
+
+<div style="overflow: auto; width: 100%; height: 100%; padding-left:10px; padding-right:10px"> <!-- Main Div -->
+  {% for result in results %} <!-- loop for each result -->
+<br>
+
+<h3 class="wf-h3-style">System Info</h3>
+{% if result.message %} <!------------------- Message ---------------------->
+<p>{% autoescape off %}{{ result.message }}{% endautoescape %}</p>
+{% else %}
+
+<ul class="nav nav-tabs" role="tablist">
+  <li class="active">
+    <a data-toggle="tab" href="#summary">Summary</a>
+  </li>
+  {% for key, value in result.data.items %}
+  {% if key != "version" and key != "system_info" and key != "full_hash" %}
+  <li>
+  <a data-toggle="tab" href="#{{ key }}">{{ key|title }}</a>
+  {% endif %}
+  {% endfor %}
+</ul>
+
+<div class="tab-content"> <!--- All Tabs content -->
+  <div id="summary" class="tab-pane fade active in" role="tabpanel">
+    <table class="wf-table-vertical">
+      {% if result.data.version %}
+      <tr>
+        <td><b>OSXCollector Version</b></td>
+        <td>{{ result.data.version.0.osxcollector_version }}</td>
+      </tr>
+      {% endif %}
+      <tr>
+        <td><b>Endpoint</b></td>
+        <td>{{ result.param.ip_hostname }}</td>
+      </tr>
+      <tr>
+        <td><b>Total Entries</b></td>
+        <td>{{ result.summary.total_entries }}</td>
+      </tr>
+    </table>
+    {% if result.data.system_info %}
+    <h4 class="wf-h4-style">System Info</h4>
+    <table class="wf-table-vertical">
+      <tr>
+        <td><b>Sysname</b></td>
+        <td>{{ result.data.system_info.0.sysname }}</td>
+      </tr>
+      <tr>
+        <td><b>System Version</b></td>
+        <td>{{ result.data.system_info.0.version }}</td>
+      </tr>
+      <tr>
+        <td><b>Node Name</b></td>
+        <td>{{ result.data.system_info.0.nodename }}</td>
+      </tr>
+    </table>
+    {% endif %}
+  </div>
+  {% if result.data.startup %}
+  <div id="startup" class="tab-pane fade" role=tabpanel"> <!--- Startup Tab -->
+    <h4 class="wf-h4-style">Startup</h4>
+    <table class="wf-table-horizontal">
+      <tr><th>File Path</th><th>MD5</th><th>SHA256</th></tr>
+      {% for curr_entry in result.data.startup.launch_agents %}
+      <tr>
+        {% if curr_entry.file_path %}
+        <td>{{ curr_entry.file_path }}</td>
+        <td>
+          <a href="javascript:;" onclick="context_menu(this, [{'contains': ['md5'], 'value': '{{ curr_entry.md5 }}' }], 0, {{ container.id }}, null, false);">
+            {{ curr_entry.md5 }}
+            &nbsp;<span class="fa fa-caret-down" style="font-size: smaller;"></span>
+          </a>
+        </td>
+        <td>
+          <a href="javascript:;" onclick="context_menu(this, [{'contains': ['sha256'], 'value': '{{ curr_entry.sha2 }}' }], 0, {{ container.id }}, null, false);">
+            {{ curr_entry.sha2 }}
+            &nbsp;<span class="fa fa-caret-down" style="font-size: smaller;"></span>
+          </a>
+        </td>
+        {% endif %}
+      </tr>
+      {% endfor %}
+    </table>
+    <h4 class="wf-h4-style">Scripting Additions</h4>
+    <table class="wf-table-horizontal">
+      <tr><th>File Path</th><th>MD5</th><th>SHA256</th></tr>
+      {% for curr_entry in result.data.startup.scripting_additions %}
+      <tr>
+        {% if curr_entry.file_path %}
+        <td>{{ curr_entry.file_path }}</td>
+        <td>
+          <a href="javascript:;" onclick="context_menu(this, [{'contains': ['md5'], 'value': '{{ curr_entry.md5 }}' }], 0, {{ container.id }}, null, false);">
+            {{ curr_entry.md5 }}
+            &nbsp;<span class="fa fa-caret-down" style="font-size: smaller;"></span>
+          </a>
+        </td>
+        <td>
+          <a href="javascript:;" onclick="context_menu(this, [{'contains': ['sha256'], 'value': '{{ curr_entry.sha2 }}' }], 0, {{ container.id }}, null, false);">
+            {{ curr_entry.sha2 }}
+            &nbsp;<span class="fa fa-caret-down" style="font-size: smaller;"></span>
+          </a>
+        </td>
+        {% endif %}
+      </tr>
+      {% endfor %}
+    </table>
+  </div>
+  {% endif %} <!-- if result.data.startup -->
+  {% if result.data.applications %}
+  <div id="applications" class="tab-pane fade" role="tabpanel">
+    {% if result.data.applications.applications %}
+    <h4 class="wf-h4-style">Applications</h4>
+    <table class="wf-table-horizontal">
+      <tr><th>File Path</th><th>MD5</th><th>SHA256</th></tr>
+      {% for curr_entry in result.data.applications.applications %}
+      <tr>
+        {% if curr_entry.file_path %}
+        <td>{{ curr_entry.file_path }}</td>
+        <td>
+          <a href="javascript:;" onclick="context_menu(this, [{'contains': ['md5'], 'value': '{{ curr_entry.md5 }}' }], 0, {{ container.id }}, null, false);">
+            {{ curr_entry.md5 }}
+            &nbsp;<span class="fa fa-caret-down" style="font-size: smaller;"></span>
+          </a>
+        </td>
+        <td>
+          <a href="javascript:;" onclick="context_menu(this, [{'contains': ['sha256'], 'value': '{{ curr_entry.sha2 }}' }], 0, {{ container.id }}, null, false);">
+            {{ curr_entry.sha2 }}
+            &nbsp;<span class="fa fa-caret-down" style="font-size: smaller;"></span>
+          </a>
+        </td>
+        {% endif %}
+      </tr>
+      {% endfor %}
+    </table>
+    {% endif %}
+    {% if result.data.applications.install_history %}
+    <h4 class="wf-h4-style">Install History</h4>
+    <table class="wf-table-horizontal">
+      <tr><th>Display Name</th><th>Display Version</th><th>Package Identifiers</th></tr>
+      {% for curr_entry in result.data.applications.install_history %}
+      <tr>
+        <td>{{ curr_entry.displayName }}</td>
+        <td>{{ curr_entry.displayVersion }}</td>
+        <td>
+          {% for id in curr_entry.packageIdentifiers %}
+          {{ id }}  
+          {% endfor %}
+        </td>
+      </tr>
+      {% endfor %}
+    </table>
+    {% endif %}
+  </div>
+  {% endif %} <!-- if result.data.applications -->
+  {% if result.data.kext %}
+  <div id="kext" class="tab-pane fade" role="tabpanel">
+    <table class="wf-table-horizontal">
+      <tr><th>File Path</th><th>MD5</th><th>SHA256</th></tr>
+      {% for curr_entry in result.data.kext %}
+      <tr>
+        {% if curr_entry.file_path %}
+        <td>{{ curr_entry.file_path }}</td>
+        <td>
+          <a href="javascript:;" onclick="context_menu(this, [{'contains': ['md5'], 'value': '{{ curr_entry.md5 }}' }], 0, {{ container.id }}, null, false);">
+            {{ curr_entry.md5 }}
+            &nbsp;<span class="fa fa-caret-down" style="font-size: smaller;"></span>
+          </a>
+        </td>
+        <td>
+          <a href="javascript:;" onclick="context_menu(this, [{'contains': ['sha256'], 'value': '{{ curr_entry.sha2 }}' }], 0, {{ container.id }}, null, false);">
+            {{ curr_entry.sha2 }}
+            &nbsp;<span class="fa fa-caret-down" style="font-size: smaller;"></span>
+          </a>
+        </td>
+        {% endif %}
+      </tr>
+      {% endfor %}
+    </table>
+  </div>
+  {% endif %} <!-- if result.data.kext -->
+  {% if result.data.accounts %}
+  <div id="accounts" class="tab-pane fade" role="tabpanel">
+    {% if result.data.accounts.system_users %}
+    <h4 class="wf-h4-style">System Users</h4>
+    <table class="wf-table-horizontal">
+      <tr><th>Name</th><th>UID</th><th>Is Admin</th></tr>
+      {% for curr_entry in result.data.accounts.system_users %}
+      <tr>
+        <td>{{ curr_entry.names.0.name }}</td>
+        <td>{{ curr_entry.uid.0 }}</td>
+        <td>{{ curr_entry.names.0.is_admin }}</td>
+      </tr>
+      {% endfor %}
+    </table>
+    {% endif %}
+  </div>
+  {% endif %} <!-- if result.data.accounts -->
+  {% if result.data.warnings %}
+  <div id="warnings" class="tab-pane fade" role="tabpanel">
+    <table class="wf-table-horizontal">
+      <tr><th>Section</th><th>Subsection</th><th>Warning</th></tr>
+      {% for curr_entry in result.data.warnings %}
+      <tr>
+        <td>{{ curr_entry.osxcollector_section }}</td>
+        <td>{{ curr_entry.osxcollector_subsection }}</td>
+        <td>{{ curr_entry.osxcollector_warn }}</td>
+      </tr>
+      {% endfor %}
+    </table>
+  </div>
+  {% endif %} <!-- if result.data.warnings -->
+  {% if result.data.downloads %}
+  <div id="downloads" class="tab-pane fade" role="tabpanel">
+    <h4 class="wf-h4-style">Downloads</h4>
+    <table class="wf-table-horizontal">
+      <tr><th>File Path</th><th>MD5</th><th>SHA256</th></tr>
+      {% for curr_entry in result.data.downloads.downloads %}
+      <tr>
+        <td>{{ curr_entry.file_path }}</td>
+        <td>
+          <a href="javascript:;" onclick="context_menu(this, [{'contains': ['md5'], 'value': '{{ curr_entry.md5 }}' }], 0, {{ container.id }}, null, false);">
+            {{ curr_entry.md5 }}
+            &nbsp;<span class="fa fa-caret-down" style="font-size: smaller;"></span>
+          </a>
+        </td>
+        <td>
+          <a href="javascript:;" onclick="context_menu(this, [{'contains': ['sha256'], 'value': '{{ curr_entry.sha2 }}' }], 0, {{ container.id }}, null, false);">
+            {{ curr_entry.sha2 }}
+            &nbsp;<span class="fa fa-caret-down" style="font-size: smaller;"></span>
+          </a>
+        </td>
+      </tr>
+      {% endfor %}
+    </table>
+  </div>
+  {% endif %} <!-- if result.data.downloads -->
+  {% if result.data.quarantines %}
+  <div id="quarantines" class="tab-pane fade" role="tabpanel">
+    <table class="wf-table-horizontal">
+      <tr><th>File Path</th><th>MD5</th><th>SHA256</th></tr>
+      {% for curr_entry in result.data.quarantines %}
+      <tr>
+        {% if curr_entry.file_path %}
+        <td>{{ curr_entry.file_path }}</td>
+        <td>
+          <a href="javascript:;" onclick="context_menu(this, [{'contains': ['md5'], 'value': '{{ curr_entry.md5 }}' }], 0, {{ container.id }}, null, false);">
+            {{ curr_entry.md5 }}
+            &nbsp;<span class="fa fa-caret-down" style="font-size: smaller;"></span>
+          </a>
+        </td>
+        <td>
+          <a href="javascript:;" onclick="context_menu(this, [{'contains': ['sha256'], 'value': '{{ curr_entry.sha2 }}' }], 0, {{ container.id }}, null, false);">
+            {{ curr_entry.sha2 }}
+            &nbsp;<span class="fa fa-caret-down" style="font-size: smaller;"></span>
+          </a>
+        </td>
+        {% endif %}
+      </tr>
+      {% endfor %}
+    </table>
+  </div>
+  {% endif %} <!-- if result.data.quarantines -->
+  {% if result.data.firefox %}
+  <div id="firefox" class="tab-pane fade" role="tabpanel">
+    {% if result.data.firefox.json_files %}
+    <h4 class="wf-h4-style">JSON Files</h4>
+    <table class="wf-table-horizontal">
+      <tr><th>Username</th><th>Json File</th></tr>
+      {% for curr_entry in result.data.firefox.json_files %}
+      <tr>
+        <td>{{ curr_entry.osxcollector_username }}</td>
+        <td>{{ curr_entry.osxcollector_json_file }}</td>
+      </tr>
+      {% endfor %}
+    </table>
+    {% endif %}
+    {% if result.data.firefox.cookies %}
+    <h4 class="wf-h4-style">Cookies</h4>
+    <table class="wf-table-horizontal">
+      <tr><th>Database Path</th><th>Name</th><th>Host</th><th>Creation Date</th></tr>
+      {% for curr_entry in result.data.firefox.cookies %}
+      <tr>
+        <td>{{ curr_entry.osxcollector_db_path }}</td>
+        <td>{{ curr_entry.name }}</td>
+        <td>{{ curr_entry.host }}</td>
+        <td>{{ curr_entry.creationTime }}</td>
+      </tr>
+      {% endfor %}
+    {% endif %}
+    {% if result.data.firefox.webapps_store %}
+    <h4 class="wf-h4-style">Webapps Store</h4>
+    <table class="wf-table-horizontal">
+      <tr><th>Database Path</th><th>Value</th><th>Scope</th><th>Key</th><th>Origin Key</th></tr>
+      {% for curr_entry in result.data.firefox.webapps_store %}
+      <tr>
+        <td>{{ curr_entry.osxcollector_db_path }}</td>
+        <td>{{ curr_entry.value }}</td>
+        <td>{{ curr_entry.scope }}</td>
+        <td>{{ curr_entry.key }}</td>
+        <td>{{ curr_entry.originKey }}</td>
+      </tr>
+      {% endfor %}
+    </table>
+    {% endif %}
+    {% if result.data.firefox.history %}
+    <h4 class="wf-h4-style">History</h4>
+    <table class="wf-table-horizontal">
+      <tr><th>Database Path</th><th>URL</th><th>Title</th><th>Visit Count</th></tr>
+      {% for curr_entry in result.data.firefox.webapps_store %}
+      <tr>
+        <td>{{ curr_entry.osxcollector_db_path }}</td>
+        <td>{{ curr_entry.url }}</td>
+        <td>{{ curr_entry.title }}</td>
+        <td>{{ curr_entry.visit_count }}</td>
+      </tr>
+      {% endfor %}
+    </table>
+    {% endif %}
+  </div>
+  {% endif %} <!-- if result.data.firefox -->
+  {% if result.data.safari %}
+  <div id="safari" class="tab-pane fade" role="tabpanel">
+    {% if result.data.safari.downloads %}
+    <h4 class="wf-h4-style">Downloads</h4>
+    <table class="wf-table-horizontal">
+      <tr><th>Path</th><th>URL</th><th>Bytes</th><th>Finished</th></tr>
+      {% for curr_entry in result.data.firefox.webapps_store %}
+      <tr>
+        <td>{{ curr_entry.DownloadEntryPath }}</td>
+        <td>{{ curr_entry.DownloadEntryURL }}</td>
+        <td>{{ curr_entry.DownloadEntryProgressBytesSoFar }}</td>
+        <td>{{ curr_entry.DownloadEntryDateFinishedKey }}</td>
+      </tr>
+      {% endfor %}
+    </table>
+    {% endif %}
+    {% if result.data.safari.localstorage %}
+    <h4 class="wf-h4-style">Local Storage</h4>
+    <table class="wf-table-horizontal">
+      <tr><th>Database Path</th><th>Table Name</th><th>Key</th></tr>
+      {% for curr_entry in result.data.firefox.localstorage %}
+      <tr>
+        <td>{{ curr_entry.osxcollector_db_path }}</td>
+        <td>{{ curr_entry.osxcollector_table_name }}</td>
+        <td>{{ curr_entry.key }}</td>
+      </tr>
+      {% endfor %}
+    </table>
+    {% endif %}
+  </div>
+  {% endif %} <!-- if result.data.safari -->
+  {% if result.data.chrome %}
+  <div id="chrome" class="tab-pane fade" role="tabpanel">
+    {% if result.data.chrome.cookies %}
+    <h4 class="wf-h4-style">Cookies</h4>
+    <table class="wf-table-horizontal">
+      <tr><th>Database Path</th><th>Table Name</th><th>Key</th><th>Value</th></tr>
+      {% for curr_entry in result.data.chrome.cookies %}
+      <tr>
+        <td>{{ curr_entry.osxcollector_db_path }}</td>
+        <td>{{ curr_entry.osxcollector_table_name }}</td>
+        <td>{{ curr_entry.key }}</td>
+        <td>{{ curr_entry.value }}</td>
+      </tr>
+      {% endfor %}
+    {% endif %}
+    {% if result.data.chrome.local_storage %}
+    <h4 class="wf-h4-style">Local Storage</h4>
+    <table class="wf-table-horizontal">
+      <tr><th>Database Path</th><th>Table Name</th><th>Key</th></tr>
+      {% for curr_entry in result.data.chrome.local_storage %}
+      <tr>
+        <td>{{ curr_entry.osxcollector_db_path }}</td>
+        <td>{{ curr_entry.osxcollector_table_name }}</td>
+        <td>{{ curr_entry.key }}</td>
+      </tr>
+      {% endfor %}
+    </table>
+    {% endif %}
+    {% if result.data.chrome.login_data %}
+    <h4 class="wf-h4-style">Login Data</h4>
+    <table class="wf-table-horizontal">
+      <tr><th>Database Path</th><th>Table Name</th><th>Key</th><th>Value</th></tr>
+      {% for curr_entry in result.data.chrome.login_data %}
+      <tr>
+        <td>{{ curr_entry.osxcollector_db_path }}</td>
+        <td>{{ curr_entry.osxcollector_table_name }}</td>
+        <td>{{ curr_entry.key }}</td>
+        <td>{{ curr_entry.value }}</td>
+      </tr>
+      {% endfor %}
+    {% endif %}
+    {% if result.data.chrome.top_sites %}
+    <h4 class="wf-h4-style">Top Sites</h4>
+    <table class="wf-table-horizontal">
+      <tr><th>Database Path</th><th>Table Name</th><th>Key</th><th>Value</th></tr>
+      {% for curr_entry in result.data.chrome.top_sites %}
+      <tr>
+        <td>{{ curr_entry.osxcollector_db_path }}</td>
+        <td>{{ curr_entry.osxcollector_table_name }}</td>
+        <td>{{ curr_entry.key }}</td>
+        <td>{{ curr_entry.value }}</td>
+      </tr>
+      {% endfor %}
+    {% endif %}
+    {% if result.data.chrome.databases %}
+    <h4 class="wf-h4-style">Databases</h4>
+    <table class="wf-table-horizontal">
+      <tr><th>Database Path</th><th>Table Name</th><th>Key</th><th>Value</th></tr>
+      {% for curr_entry in result.data.chrome.databases %}
+      <tr>
+        <td>{{ curr_entry.osxcollector_db_path }}</td>
+        <td>{{ curr_entry.osxcollector_table_name }}</td>
+        <td>{{ curr_entry.key }}</td>
+        <td>{{ curr_entry.value }}</td>
+      </tr>
+      {% endfor %}
+    {% endif %}
+    {% if result.data.chrome.web_data %}
+    <h4 class="wf-h4-style">Web Data</h4>
+    <table class="wf-table-horizontal">
+      <tr><th>Database Path</th><th>Table Name</th><th>Key</th><th>Value</th></tr>
+      {% for curr_entry in result.data.chrome.web_data %}
+      <tr>
+        <td>{{ curr_entry.osxcollector_db_path }}</td>
+        <td>{{ curr_entry.osxcollector_table_name }}</td>
+        <td>{{ curr_entry.key }}</td>
+        <td>{{ curr_entry.value }}</td>
+      </tr>
+      {% endfor %}
+    {% endif %}
+    {% if result.data.chrome.web_data %}
+    <h4 class="wf-h4-style">Web Data</h4>
+    <table class="wf-table-horizontal">
+      <tr><th>Database Path</th><th>Table Name</th><th>Key</th><th>Value</th></tr>
+      {% for curr_entry in result.data.chrome.web_data %}
+      <tr>
+        <td>{{ curr_entry.osxcollector_db_path }}</td>
+        <td>{{ curr_entry.osxcollector_table_name }}</td>
+        <td>{{ curr_entry.key }}</td>
+        <td>{{ curr_entry.value }}</td>
+      </tr>
+      {% endfor %}
+    {% endif %}
+    {% if result.data.chrome.preferences %}
+    <h4 class="wf-h4-style">Preferences</h4>
+    <table class="wf-table-horizontal">
+      <tr><th>JSON File</th></tr>
+      {% for curr_entry in result.data.chrome.web_data %}
+      <tr>
+        <td>{{ curr_entry.json_file }}</td>
+      </tr>
+      {% endfor %}
+    {% endif %}
+  {% endif %} <!-- if result.data.chrome -->
+  {% if result.data.mail %}
+  <div id="mail" class="tab-pane fade" role="tabpanel">
+    <table class="wf-table-horizontal">
+      <tr><th>File Path</th><th>MD5</th><th>SHA256</th></tr>
+      {% for curr_entry in result.data.mail %}
+      <tr>
+        {% if curr_entry.file_path %}
+        <td>{{ curr_entry.file_path }}</td>
+        <td>
+          <a href="javascript:;" onclick="context_menu(this, [{'contains': ['md5'], 'value': '{{ curr_entry.md5 }}' }], 0, {{ container.id }}, null, false);">
+            {{ curr_entry.md5 }}
+            &nbsp;<span class="fa fa-caret-down" style="font-size: smaller;"></span>
+          </a>
+        </td>
+        <td>
+          <a href="javascript:;" onclick="context_menu(this, [{'contains': ['sha256'], 'value': '{{ curr_entry.sha2 }}' }], 0, {{ container.id }}, null, false);">
+            {{ curr_entry.sha2 }}
+            &nbsp;<span class="fa fa-caret-down" style="font-size: smaller;"></span>
+          </a>
+        </td>
+        {% endif %}
+      </tr>
+      {% endfor %}
+    </table>
+  </div>
+  {% endif %} <!-- if result.data.mail -->
+</div>
+
+{% endif %}
+{% endfor %}
+{% endblock %}
