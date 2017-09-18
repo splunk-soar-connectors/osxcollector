@@ -8,12 +8,12 @@
     "app_version": "1.0.14",
     "utctime_updated": "2017-08-29T06:11:15.000000Z",
   "package_name": "phantom_osxcollector",
-  "product_vendor": "Generic", 
+  "product_vendor": "Generic",
   "product_name": "SSH",
   "logo": "phantom.png",
   "product_version_regex": ".*",
-  "min_phantom_version": "1.2.265",
-  "license": "Copyright (c) Phantom Cyber Corporation 2016",
+  "min_phantom_version": "3.0.247",
+  "license": "Copyright (c) Phantom Cyber Corporation 2016-2017",
   "configuration": {
     "username": {
       "data_type": "string",
