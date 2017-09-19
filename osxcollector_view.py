@@ -1,3 +1,17 @@
+# File: osxcollector_connector.py
+#
+# Copyright (c) Phantom Cyber Corporation, 2016-2017
+#
+# This unpublished material is proprietary to Phantom Cyber.
+# All rights reserved. The methods and
+# techniques described herein are considered trade secrets
+# and/or confidential. Reproduction or distribution, in whole
+# or in part, is forbidden except by express written permission
+# of Phantom Cyber.
+#
+# --
+
+
 def replace_underscore(value):
     return value.replace('_', ' ')
 

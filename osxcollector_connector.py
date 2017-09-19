@@ -1,6 +1,6 @@
 # File: osxcollector_connector.py
 #
-# Copyright (c) Phantom Cyber Corporation, 2016
+# Copyright (c) Phantom Cyber Corporation, 2016-2017
 #
 # This unpublished material is proprietary to Phantom Cyber.
 # All rights reserved. The methods and
