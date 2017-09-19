@@ -1,4 +1,4 @@
-# File: osxcollector_connector.py
+# File: osxcollector_view.py
 #
 # Copyright (c) Phantom Cyber Corporation, 2016-2017
 #
