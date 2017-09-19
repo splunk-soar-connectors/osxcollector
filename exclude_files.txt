@@ -1,5 +1,2 @@
-dont_post_rpm
-exclude_files.txt
-osxcollector_connector.py
-osxcollector_consts.py
-osxcollector_view.py
+.git*
+*.py
