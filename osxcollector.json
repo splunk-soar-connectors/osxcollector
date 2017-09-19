@@ -5,8 +5,8 @@
   "description": "Runs OSXCollector on an endpoint running OS X",
   "type": "endpoint",
   "main_module": "osxcollector_connector.pyc",
-    "app_version": "1.0.14",
-    "utctime_updated": "2017-08-29T06:11:15.000000Z",
+  "app_version": "1.0.15",
+  "utctime_updated": "2017-09-19T23:27:37.000000Z",
   "package_name": "phantom_osxcollector",
   "product_vendor": "Generic",
   "product_name": "SSH",
@@ -60,7 +60,10 @@
           "data_type": "string",
           "order": 0,
           "description": "Hostname/IP to investigate",
-          "contains": [ "ip", "host name" ],
+          "contains": [
+            "ip",
+            "host name"
+          ],
           "required": true,
           "primary": true
         },
@@ -87,7 +90,10 @@
         {
           "data_path": "action_result.parameter.ip_hostname",
           "data_type": "string",
-          "contains": ["ip", "host name"]
+          "contains": [
+            "ip",
+            "host name"
+          ]
         },
         {
           "data_path": "action_result.id",
@@ -96,7 +102,9 @@
         {
           "data_path": "action_result.data.*.kext.*.md5",
           "data_type": "string",
-          "contains": [ "md5" ]
+          "contains": [
+            "md5"
+          ]
         },
         {
           "data_path": "action_result.data.*.kext.*.sha1",
@@ -105,7 +113,9 @@
         {
           "data_path": "action_result.data.*.kext.*.sha2",
           "data_type": "string",
-          "contains": [ "sha256" ]
+          "contains": [
+            "sha256"
+          ]
         },
         {
           "data_path": "action_result.data.*.kext.*.ctime",
@@ -150,7 +160,9 @@
         {
           "data_path": "action_result.data.*.mail.*.md5",
           "data_type": "string",
-          "contains": [ "md5" ]
+          "contains": [
+            "md5"
+          ]
         },
         {
           "data_path": "action_result.data.*.mail.*.sha1",
@@ -159,7 +171,9 @@
         {
           "data_path": "action_result.data.*.mail.*.sha2",
           "data_type": "string",
-          "contains": [ "sha256" ]
+          "contains": [
+            "sha256"
+          ]
         },
         {
           "data_path": "action_result.data.*.mail.*.ctime",
@@ -4046,7 +4060,9 @@
         {
           "data_path": "action_result.data.*.startup.launch_agents.*.md5",
           "data_type": "string",
-          "contains": [ "md5" ]
+          "contains": [
+            "md5"
+          ]
         },
         {
           "data_path": "action_result.data.*.startup.launch_agents.*.sha1",
@@ -4055,7 +4071,9 @@
         {
           "data_path": "action_result.data.*.startup.launch_agents.*.sha2",
           "data_type": "string",
-          "contains": [ "sha256" ]
+          "contains": [
+            "sha256"
+          ]
         },
         {
           "data_path": "action_result.data.*.startup.launch_agents.*.ctime",
@@ -4119,7 +4137,9 @@
         {
           "data_path": "action_result.data.*.startup.scripting_additions.*.md5",
           "data_type": "string",
-          "contains": [ "md5" ]
+          "contains": [
+            "md5"
+          ]
         },
         {
           "data_path": "action_result.data.*.startup.scripting_additions.*.sha1",
@@ -4128,7 +4148,9 @@
         {
           "data_path": "action_result.data.*.startup.scripting_additions.*.sha2",
           "data_type": "string",
-          "contains": [ "sha256" ]
+          "contains": [
+            "sha256"
+          ]
         },
         {
           "data_path": "action_result.data.*.startup.scripting_additions.*.ctime",
@@ -4482,7 +4504,9 @@
         {
           "data_path": "action_result.data.*.downloads.downloads.*.md5",
           "data_type": "string",
-          "contains": [ "md5" ]
+          "contains": [
+            "md5"
+          ]
         },
         {
           "data_path": "action_result.data.*.downloads.downloads.*.sha1",
@@ -4491,7 +4515,9 @@
         {
           "data_path": "action_result.data.*.downloads.downloads.*.sha2",
           "data_type": "string",
-          "contains": [ "sha256" ]
+          "contains": [
+            "sha256"
+          ]
         },
         {
           "data_path": "action_result.data.*.downloads.downloads.*.ctime",
@@ -4602,7 +4628,9 @@
         {
           "data_path": "action_result.data.*.quarantines.*.md5",
           "data_type": "string",
-          "contains": [ "md5" ]
+          "contains": [
+            "md5"
+          ]
         },
         {
           "data_path": "action_result.data.*.quarantines.*.sha1",
@@ -4611,7 +4639,9 @@
         {
           "data_path": "action_result.data.*.quarantines.*.sha2",
           "data_type": "string",
-          "contains": [ "sha256" ]
+          "contains": [
+            "sha256"
+          ]
         },
         {
           "data_path": "action_result.data.*.quarantines.*.ctime",
@@ -4668,7 +4698,9 @@
         {
           "data_path": "action_result.data.*.applications.applications.*.md5",
           "data_type": "string",
-          "contains": [ "md5" ]
+          "contains": [
+            "md5"
+          ]
         },
         {
           "data_path": "action_result.data.*.applications.applications.*.sha1",
@@ -4677,7 +4709,9 @@
         {
           "data_path": "action_result.data.*.applications.applications.*.sha2",
           "data_type": "string",
-          "contains": [ "sha256" ]
+          "contains": [
+            "sha256"
+          ]
         },
         {
           "data_path": "action_result.data.*.applications.applications.*.ctime",
