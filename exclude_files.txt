@@ -1,2 +1,4 @@
 .git*
-*.py
+osxcollector_connector.py
+osxcollector_consts.py
+osxcollector_view.py
