@@ -13,7 +13,7 @@
 
 {% block widget_content %} <!-- Main Start Block -->
 
-<!-- 
+<!--
 File: ./osxc_display_info.html
 
 Copyright (c) Phantom Cyber Corporation, 2016-2017
@@ -243,7 +243,7 @@ when I started writing this
         <td>{{ curr_entry.displayVersion }}</td>
         <td>
           {% for id in curr_entry.packageIdentifiers %}
-          {{ id }}  
+          {{ id }}
           {% endfor %}
         </td>
       </tr>
@@ -362,6 +362,20 @@ when I started writing this
   {% endif %} <!-- if result.data.quarantines -->
   {% if result.data.firefox %}
   <div id="firefox" class="tab-pane fade" role="tabpanel">
+    {% if result.data.firefox.downloads %}
+    <h4 class="wf-h4-style">Downloads</h4>
+    <table class="wf-table-horizontal">
+      <tr><th>Path</th><th>URL</th><th>Bytes</th><th>Finished</th></tr>
+      {% for curr_entry in result.data.firefox.downloads %}
+      <tr>
+        <td>{{ curr_entry.DownloadEntryPath }}</td>
+        <td>{{ curr_entry.DownloadEntryURL }}</td>
+        <td>{{ curr_entry.DownloadEntryProgressBytesSoFar }}</td>
+        <td>{{ curr_entry.DownloadEntryDateFinishedKey }}</td>
+      </tr>
+      {% endfor %}
+    </table>
+    {% endif %}
     {% if result.data.firefox.json_files %}
     <h4 class="wf-h4-style">JSON Files</h4>
     <table class="wf-table-horizontal">
