@@ -12,7 +12,7 @@
   "product_name": "SSH",
   "logo": "phantom.png",
   "product_version_regex": ".*",
-  "min_phantom_version": "3.0.247",
+  "min_phantom_version": "3.0.251",
   "license": "Copyright (c) Phantom Cyber Corporation 2016-2017",
   "configuration": {
     "username": {
