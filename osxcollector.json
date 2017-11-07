@@ -5,15 +5,15 @@
   "description": "Runs OSXCollector on an endpoint running OS X",
   "type": "endpoint",
   "main_module": "osxcollector_connector.pyc",
-    "app_version": "1.0.14",
-    "utctime_updated": "2017-08-29T06:11:15.000000Z",
+  "app_version": "1.0.22",
+  "utctime_updated": "2017-11-04T01:11:39.000000Z",
   "package_name": "phantom_osxcollector",
-  "product_vendor": "Generic", 
+  "product_vendor": "Generic",
   "product_name": "SSH",
   "logo": "phantom.png",
   "product_version_regex": ".*",
-  "min_phantom_version": "1.2.265",
-  "license": "Copyright (c) Phantom Cyber Corporation 2016",
+  "min_phantom_version": "3.0.251",
+  "license": "Copyright (c) Phantom Cyber Corporation 2016-2017",
   "configuration": {
     "username": {
       "data_type": "string",
@@ -51,7 +51,7 @@
     {
       "action": "get system info",
       "description": "Get information about a system using OSXCollector",
-      "verbose": "This action will only work on an endpoint running OS X.<br>This action will create a copy of the osxcollector.py file in the endpoint's <code>/tmp/phantom</code> directory.<br>Sections are a way to filter out the data. For a list of sections, refer to this link: <a href=\"https://github.com/Yelp/osxcollector\">https://github.com/Yelp/osxcollector</a>.<br>If you decide to run with the full_hash section, then be warned that the action will take a long time (hours) since it is hashing <i>every</i> file, and also no results will be displayed in the widget when it finishes.",
+      "verbose": "This action will only work on an endpoint running OS X.<br>This action will create a copy of the osxcollector.py file in the endpoint's <code>/tmp/phantom</code> directory.<br>Sections are a way to filter out the data. For a list of sections, refer to this link: <a href=\"https://github.com/Yelp/osxcollector\">https://github.com/Yelp/osxcollector</a>.<br>Due to the large amount of data and time involved, this app does not support running with the 'full_hash' section.",
       "type": "investigate",
       "identifier": "get_system_info",
       "read_only": true,
@@ -60,7 +60,10 @@
           "data_type": "string",
           "order": 0,
           "description": "Hostname/IP to investigate",
-          "contains": [ "ip", "host name" ],
+          "contains": [
+            "ip",
+            "host name"
+          ],
           "required": true,
           "primary": true
         },
@@ -87,7 +90,10 @@
         {
           "data_path": "action_result.parameter.ip_hostname",
           "data_type": "string",
-          "contains": ["ip", "host name"]
+          "contains": [
+            "ip",
+            "host name"
+          ]
         },
         {
           "data_path": "action_result.id",
@@ -96,7 +102,9 @@
         {
           "data_path": "action_result.data.*.kext.*.md5",
           "data_type": "string",
-          "contains": [ "md5" ]
+          "contains": [
+            "md5"
+          ]
         },
         {
           "data_path": "action_result.data.*.kext.*.sha1",
@@ -105,7 +113,9 @@
         {
           "data_path": "action_result.data.*.kext.*.sha2",
           "data_type": "string",
-          "contains": [ "sha256" ]
+          "contains": [
+            "sha256"
+          ]
         },
         {
           "data_path": "action_result.data.*.kext.*.ctime",
@@ -150,7 +160,9 @@
         {
           "data_path": "action_result.data.*.mail.*.md5",
           "data_type": "string",
-          "contains": [ "md5" ]
+          "contains": [
+            "md5"
+          ]
         },
         {
           "data_path": "action_result.data.*.mail.*.sha1",
@@ -159,7 +171,9 @@
         {
           "data_path": "action_result.data.*.mail.*.sha2",
           "data_type": "string",
-          "contains": [ "sha256" ]
+          "contains": [
+            "sha256"
+          ]
         },
         {
           "data_path": "action_result.data.*.mail.*.ctime",
@@ -4046,7 +4060,9 @@
         {
           "data_path": "action_result.data.*.startup.launch_agents.*.md5",
           "data_type": "string",
-          "contains": [ "md5" ]
+          "contains": [
+            "md5"
+          ]
         },
         {
           "data_path": "action_result.data.*.startup.launch_agents.*.sha1",
@@ -4055,7 +4071,9 @@
         {
           "data_path": "action_result.data.*.startup.launch_agents.*.sha2",
           "data_type": "string",
-          "contains": [ "sha256" ]
+          "contains": [
+            "sha256"
+          ]
         },
         {
           "data_path": "action_result.data.*.startup.launch_agents.*.ctime",
@@ -4119,7 +4137,9 @@
         {
           "data_path": "action_result.data.*.startup.scripting_additions.*.md5",
           "data_type": "string",
-          "contains": [ "md5" ]
+          "contains": [
+            "md5"
+          ]
         },
         {
           "data_path": "action_result.data.*.startup.scripting_additions.*.sha1",
@@ -4128,7 +4148,9 @@
         {
           "data_path": "action_result.data.*.startup.scripting_additions.*.sha2",
           "data_type": "string",
-          "contains": [ "sha256" ]
+          "contains": [
+            "sha256"
+          ]
         },
         {
           "data_path": "action_result.data.*.startup.scripting_additions.*.ctime",
@@ -4482,7 +4504,9 @@
         {
           "data_path": "action_result.data.*.downloads.downloads.*.md5",
           "data_type": "string",
-          "contains": [ "md5" ]
+          "contains": [
+            "md5"
+          ]
         },
         {
           "data_path": "action_result.data.*.downloads.downloads.*.sha1",
@@ -4491,7 +4515,9 @@
         {
           "data_path": "action_result.data.*.downloads.downloads.*.sha2",
           "data_type": "string",
-          "contains": [ "sha256" ]
+          "contains": [
+            "sha256"
+          ]
         },
         {
           "data_path": "action_result.data.*.downloads.downloads.*.ctime",
@@ -4602,7 +4628,9 @@
         {
           "data_path": "action_result.data.*.quarantines.*.md5",
           "data_type": "string",
-          "contains": [ "md5" ]
+          "contains": [
+            "md5"
+          ]
         },
         {
           "data_path": "action_result.data.*.quarantines.*.sha1",
@@ -4611,7 +4639,9 @@
         {
           "data_path": "action_result.data.*.quarantines.*.sha2",
           "data_type": "string",
-          "contains": [ "sha256" ]
+          "contains": [
+            "sha256"
+          ]
         },
         {
           "data_path": "action_result.data.*.quarantines.*.ctime",
@@ -4668,7 +4698,9 @@
         {
           "data_path": "action_result.data.*.applications.applications.*.md5",
           "data_type": "string",
-          "contains": [ "md5" ]
+          "contains": [
+            "md5"
+          ]
         },
         {
           "data_path": "action_result.data.*.applications.applications.*.sha1",
@@ -4677,7 +4709,9 @@
         {
           "data_path": "action_result.data.*.applications.applications.*.sha2",
           "data_type": "string",
-          "contains": [ "sha256" ]
+          "contains": [
+            "sha256"
+          ]
         },
         {
           "data_path": "action_result.data.*.applications.applications.*.ctime",

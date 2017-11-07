@@ -13,10 +13,10 @@
 
 {% block widget_content %} <!-- Main Start Block -->
 
-<!-- 
+<!--
 File: ./osxc_display_info.html
 
-Copyright (c) Phantom Cyber Corporation, 2016
+Copyright (c) Phantom Cyber Corporation, 2016-2017
 
 This unpublished material is proprietary to Phantom Cyber.
 All rights reserved. The methods and
@@ -24,11 +24,6 @@ techniques described herein are considered trade secrets
 and/or confidential. Reproduction or distribution, in whole
 or in part, is forbidden except by express written permission
 of Phantom Cyber Corporation.
--->
-<!--
-Now that I've spent hours on this, I have come to the conclusion that even though it doesn't look as nice,
-dynamically generating all the tabs would be so much easier. I don't know why I thought that was a bad idea
-when I started writing this
 -->
 
 <style>
@@ -120,7 +115,7 @@ when I started writing this
   {% endfor %}
 </ul>
 
-<div class="tab-content"> <!--- All Tabs content -->
+<div class="tab-content" style="z-index: 1;"> <!--- All Tabs content -->
   <div id="summary" class="tab-pane fade active in" role="tabpanel">
     <table class="wf-table-vertical">
       {% if result.data.version %}
@@ -243,7 +238,7 @@ when I started writing this
         <td>{{ curr_entry.displayVersion }}</td>
         <td>
           {% for id in curr_entry.packageIdentifiers %}
-          {{ id }}  
+          {{ id }}
           {% endfor %}
         </td>
       </tr>
@@ -362,6 +357,20 @@ when I started writing this
   {% endif %} <!-- if result.data.quarantines -->
   {% if result.data.firefox %}
   <div id="firefox" class="tab-pane fade" role="tabpanel">
+    {% if result.data.firefox.downloads %}
+    <h4 class="wf-h4-style">Downloads</h4>
+    <table class="wf-table-horizontal">
+      <tr><th>Path</th><th>URL</th><th>Bytes</th><th>Finished</th></tr>
+      {% for curr_entry in result.data.firefox.downloads %}
+      <tr>
+        <td>{{ curr_entry.DownloadEntryPath }}</td>
+        <td>{{ curr_entry.DownloadEntryURL }}</td>
+        <td>{{ curr_entry.DownloadEntryProgressBytesSoFar }}</td>
+        <td>{{ curr_entry.DownloadEntryDateFinishedKey }}</td>
+      </tr>
+      {% endfor %}
+    </table>
+    {% endif %}
     {% if result.data.firefox.json_files %}
     <h4 class="wf-h4-style">JSON Files</h4>
     <table class="wf-table-horizontal">
@@ -424,7 +433,7 @@ when I started writing this
     <h4 class="wf-h4-style">Downloads</h4>
     <table class="wf-table-horizontal">
       <tr><th>Path</th><th>URL</th><th>Bytes</th><th>Finished</th></tr>
-      {% for curr_entry in result.data.firefox.webapps_store %}
+      {% for curr_entry in result.data.safari.downloads %}
       <tr>
         <td>{{ curr_entry.DownloadEntryPath }}</td>
         <td>{{ curr_entry.DownloadEntryURL }}</td>
@@ -438,7 +447,7 @@ when I started writing this
     <h4 class="wf-h4-style">Local Storage</h4>
     <table class="wf-table-horizontal">
       <tr><th>Database Path</th><th>Table Name</th><th>Key</th></tr>
-      {% for curr_entry in result.data.firefox.localstorage %}
+      {% for curr_entry in result.data.safari.localstorage %}
       <tr>
         <td>{{ curr_entry.osxcollector_db_path }}</td>
         <td>{{ curr_entry.osxcollector_table_name }}</td>
@@ -463,6 +472,7 @@ when I started writing this
         <td>{{ curr_entry.value }}</td>
       </tr>
       {% endfor %}
+    </table>
     {% endif %}
     {% if result.data.chrome.local_storage %}
     <h4 class="wf-h4-style">Local Storage</h4>
@@ -489,6 +499,7 @@ when I started writing this
         <td>{{ curr_entry.value }}</td>
       </tr>
       {% endfor %}
+    </table>
     {% endif %}
     {% if result.data.chrome.top_sites %}
     <h4 class="wf-h4-style">Top Sites</h4>
@@ -502,6 +513,7 @@ when I started writing this
         <td>{{ curr_entry.value }}</td>
       </tr>
       {% endfor %}
+    </table>
     {% endif %}
     {% if result.data.chrome.databases %}
     <h4 class="wf-h4-style">Databases</h4>
@@ -515,6 +527,7 @@ when I started writing this
         <td>{{ curr_entry.value }}</td>
       </tr>
       {% endfor %}
+    </table>
     {% endif %}
     {% if result.data.chrome.web_data %}
     <h4 class="wf-h4-style">Web Data</h4>
@@ -528,30 +541,20 @@ when I started writing this
         <td>{{ curr_entry.value }}</td>
       </tr>
       {% endfor %}
-    {% endif %}
-    {% if result.data.chrome.web_data %}
-    <h4 class="wf-h4-style">Web Data</h4>
-    <table class="wf-table-horizontal">
-      <tr><th>Database Path</th><th>Table Name</th><th>Key</th><th>Value</th></tr>
-      {% for curr_entry in result.data.chrome.web_data %}
-      <tr>
-        <td>{{ curr_entry.osxcollector_db_path }}</td>
-        <td>{{ curr_entry.osxcollector_table_name }}</td>
-        <td>{{ curr_entry.key }}</td>
-        <td>{{ curr_entry.value }}</td>
-      </tr>
-      {% endfor %}
+    </table>
     {% endif %}
     {% if result.data.chrome.preferences %}
     <h4 class="wf-h4-style">Preferences</h4>
     <table class="wf-table-horizontal">
       <tr><th>JSON File</th></tr>
-      {% for curr_entry in result.data.chrome.web_data %}
+      {% for curr_entry in result.data.chrome.preferences %}
       <tr>
-        <td>{{ curr_entry.json_file }}</td>
+        <td>{{ curr_entry.osxcollector_json_file }}</td>
       </tr>
       {% endfor %}
+    </table>
     {% endif %}
+  </div>
   {% endif %} <!-- if result.data.chrome -->
   {% if result.data.mail %}
   <div id="mail" class="tab-pane fade" role="tabpanel">

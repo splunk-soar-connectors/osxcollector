@@ -1,6 +1,6 @@
 # File: osxcollector_connector.py
 #
-# Copyright (c) Phantom Cyber Corporation, 2016
+# Copyright (c) Phantom Cyber Corporation, 2016-2017
 #
 # This unpublished material is proprietary to Phantom Cyber.
 # All rights reserved. The methods and
@@ -192,7 +192,7 @@ class OSXCollectorConnector(BaseConnector):
         root = config.get(OSXC_JSON_ROOT, False)
         if root:
             passwd = None
-        if not root and  passwd is None:
+        if not root and passwd is None:
             return action_result.set_status(phantom.APP_ERROR, OSXC_ERR_NEED_PW_FOR_ROOT)
 
         # Since the output is always in the current working directory, we want to cd into our tmp directory first
@@ -270,6 +270,10 @@ class OSXCollectorConnector(BaseConnector):
             return phantom.APP_SUCCESS
         for section in param[OSXC_JSON_SECTIONS].split(','):
             section = section.strip()
+            if section == "full_hash":
+                return action_result.set_status(
+                    phantom.APP_ERROR, "This App does not support the 'full_hash' parameter"
+                )
             if section in OSXC_VALID_SECTIONS:
                 self._param_string += "-s {} ".format(section)
             else:
@@ -334,6 +338,7 @@ class OSXCollectorConnector(BaseConnector):
             ret_val = self._osx_collect(param)
 
         return ret_val
+
 
 if __name__ == '__main__':
 
