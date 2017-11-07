@@ -49,6 +49,17 @@
   },
   "actions": [
     {
+      "action": "test connectivity",
+      "description": "Validate the asset configuration for connectivity using supplied credentials",
+      "type": "test",
+      "identifier": "test_asset_connectivity",
+      "read_only": true,
+      "parameters": {
+      },
+      "output": [],
+      "versions":"EQ(*)"
+    },
+    {
       "action": "get system info",
       "description": "Get information about a system using OSXCollector",
       "verbose": "This action will only work on an endpoint running OS X.<br>This action will create a copy of the osxcollector.py file in the endpoint's <code>/tmp/phantom</code> directory.<br>Sections are a way to filter out the data. For a list of sections, refer to this link: <a href=\"https://github.com/Yelp/osxcollector\">https://github.com/Yelp/osxcollector</a>.<br>Due to the large amount of data and time involved, this app does not support running with the 'full_hash' section.",
