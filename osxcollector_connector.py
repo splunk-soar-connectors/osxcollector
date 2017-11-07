@@ -116,7 +116,6 @@ class OSXCollectorConnector(BaseConnector):
         output = ""
         i = 1
         stime = int(time.time())
-        self.save_progress("Executing command")
         try:
             while True:
                 ctime = int(time.time())

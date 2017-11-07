@@ -5,8 +5,8 @@
   "description": "Runs OSXCollector on an endpoint running OS X",
   "type": "endpoint",
   "main_module": "osxcollector_connector.pyc",
-  "app_version": "1.0.22",
-  "utctime_updated": "2017-11-04T01:11:39.000000Z",
+  "app_version": "2.0.0",
+  "utctime_updated": "2017-11-07T22:27:42.000000Z",
   "package_name": "phantom_osxcollector",
   "product_vendor": "Yelp",
   "product_name": "OSXCollector",
@@ -54,10 +54,9 @@
       "type": "test",
       "identifier": "test_asset_connectivity",
       "read_only": true,
-      "parameters": {
-      },
+      "parameters": {},
       "output": [],
-      "versions":"EQ(*)"
+      "versions": "EQ(*)"
     },
     {
       "action": "get system info",
