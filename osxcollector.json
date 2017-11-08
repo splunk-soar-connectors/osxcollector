@@ -5,12 +5,12 @@
   "description": "Runs OSXCollector on an endpoint running OS X",
   "type": "endpoint",
   "main_module": "osxcollector_connector.pyc",
-  "app_version": "1.0.22",
-  "utctime_updated": "2017-11-04T01:11:39.000000Z",
+  "app_version": "2.0.4",
+  "utctime_updated": "2017-11-08T23:28:43.000000Z",
   "package_name": "phantom_osxcollector",
-  "product_vendor": "Generic",
-  "product_name": "SSH",
-  "logo": "phantom.png",
+  "product_vendor": "Yelp",
+  "product_name": "OSXCollector",
+  "logo": "yelp.png",
   "product_version_regex": ".*",
   "min_phantom_version": "3.0.251",
   "license": "Copyright (c) Phantom Cyber Corporation 2016-2017",
@@ -48,6 +48,16 @@
     }
   },
   "actions": [
+    {
+      "action": "test connectivity",
+      "description": "Validate the asset configuration for connectivity using supplied credentials",
+      "type": "test",
+      "identifier": "test_asset_connectivity",
+      "read_only": true,
+      "parameters": {},
+      "output": [],
+      "versions": "EQ(*)"
+    },
     {
       "action": "get system info",
       "description": "Get information about a system using OSXCollector",

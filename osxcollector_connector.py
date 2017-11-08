@@ -70,7 +70,7 @@ class OSXCollectorConnector(BaseConnector):
         except Exception as e:
             return action_result.set_status(phantom.APP_ERROR, OSXC_ERR_CONNECTION_FAILED, e)
 
-        # Mac sure its a mac
+        # Make sure its a mac
         cmd = "uname -a"
         status_code, stdout, exit_status = self._send_command(cmd, action_result)
 
@@ -116,13 +116,11 @@ class OSXCollectorConnector(BaseConnector):
         output = ""
         i = 1
         stime = int(time.time())
-        self.save_progress("Executing command")
         try:
             while True:
                 ctime = int(time.time())
                 if (self._shell_channel.recv_ready()):
                     output += self._shell_channel.recv(8192)
-                    # This is pretty messy but it's just the way it is I guess
                     if (sendpw and passwd):
                         try:
                             self._shell_channel.send("{}\n".format(passwd))
@@ -182,9 +180,6 @@ class OSXCollectorConnector(BaseConnector):
 
     def _run_osxcollector(self, action_result):
 
-        # The original osxcollector has been changed to always output in
-        #  /tmp/phantom
-        # You need to change that file if you want to use a different directory
         cd_cmd = 'cd {} ; '.format(self.REMOTE_TMP_PATH)
         cmd = 'sudo -k python2.7 /tmp/phantom/osxcollector.py {}'.format(self._param_string)
         config = self.get_config()
@@ -200,7 +195,6 @@ class OSXCollectorConnector(BaseConnector):
         if (phantom.is_fail(status_code)):
             return action_result.get_status()
         self.debug_print("STDOUT", stdout)
-        # This is a bit cowboyish but I can't think of a better way
         self._out_file = stdout.splitlines()[2].split()[-1]
         return phantom.APP_SUCCESS
 
@@ -221,7 +215,6 @@ class OSXCollectorConnector(BaseConnector):
     def _get_contents(self, action_result):
         data = {}
         total_entries = 0
-        # data['warnings'] = []  # Create own section for warnings (mostly because warnings will break the code otherwise)
         warnings = []
         base_name = self._out_file.split('.')[0]  # Ignore the .tar.gz
         try:
@@ -251,7 +244,6 @@ class OSXCollectorConnector(BaseConnector):
                     else:
                         data[section].append(j)
         except:
-            # This should /hopefully/ never happen
             return action_result.set_status(phantom.APP_ERROR, "Error parsing json file")
         if warnings:
             data['warnings'] = warnings
@@ -285,6 +277,7 @@ class OSXCollectorConnector(BaseConnector):
 
     def _test_connectivity(self, param):
 
+        action_result = self.add_action_result(ActionResult(dict(param)))
         self.save_progress("Testing SSH connection")
 
         try:
@@ -292,9 +285,10 @@ class OSXCollectorConnector(BaseConnector):
         except:
             return self.set_status(phantom.APP_ERROR, "Need to specify a hostname or IP to connect to")
 
-        ret_val = self._start_connection(endpoint, ActionResult())
+        ret_val = self._start_connection(endpoint, action_result)
         if (phantom.is_fail(ret_val)):
-            return self.set_status_save_progress(phantom.APP_ERROR, OSXC_ERR_CONNECTIVITY_TEST)
+            self.save_progress(OSXC_ERR_CONNECTIVITY_TEST)
+            return self.set_status(phantom.APP_ERROR)
 
         return self.set_status_save_progress(phantom.APP_SUCCESS, OSXC_SUCC_CONNECTIVITY_TEST)
 
