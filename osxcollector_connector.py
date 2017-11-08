@@ -287,7 +287,7 @@ class OSXCollectorConnector(BaseConnector):
 
         ret_val = self._start_connection(endpoint, action_result)
         if (phantom.is_fail(ret_val)):
-            return self.save_progress(OSXC_ERR_CONNECTIVITY_TEST)
+            self.save_progress(OSXC_ERR_CONNECTIVITY_TEST)
             return self.set_status(phantom.APP_ERROR)
 
         return self.set_status_save_progress(phantom.APP_SUCCESS, OSXC_SUCC_CONNECTIVITY_TEST)
