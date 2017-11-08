@@ -277,6 +277,7 @@ class OSXCollectorConnector(BaseConnector):
 
     def _test_connectivity(self, param):
 
+        action_result = self.add_action_result(ActionResult(dict(param)))
         self.save_progress("Testing SSH connection")
 
         try:
@@ -284,9 +285,10 @@ class OSXCollectorConnector(BaseConnector):
         except:
             return self.set_status(phantom.APP_ERROR, "Need to specify a hostname or IP to connect to")
 
-        ret_val = self._start_connection(endpoint, ActionResult())
+        ret_val = self._start_connection(endpoint, action_result)
         if (phantom.is_fail(ret_val)):
-            return self.set_status_save_progress(phantom.APP_ERROR, OSXC_ERR_CONNECTIVITY_TEST)
+            return self.save_progress(OSXC_ERR_CONNECTIVITY_TEST)
+            return self.set_status(phantom.APP_ERROR)
 
         return self.set_status_save_progress(phantom.APP_SUCCESS, OSXC_SUCC_CONNECTIVITY_TEST)
 
