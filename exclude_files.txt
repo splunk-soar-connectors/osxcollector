@@ -1,4 +1,7 @@
+docker-compose.yml
+osxcollector_consts.py
+Makefile
+osxcollector_view.py
 .git*
 osxcollector_connector.py
-osxcollector_consts.py
-osxcollector_view.py
+.gitlab-ci.yml
