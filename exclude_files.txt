@@ -5,3 +5,4 @@ osxcollector_view.py
 .git*
 osxcollector_connector.py
 .gitlab-ci.yml
+whitesource-results
