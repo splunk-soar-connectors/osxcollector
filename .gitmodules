@@ -1,6 +1,0 @@
-[submodule "osxc"]
-	path = osxc
-	url = git@cd.splunkdev.com:phantom-external/osxcollector.git
-[submodule "paramikossh"]
-	path = paramikossh
-	url = git@cd.splunkdev.com:phantom-external/paramikossh.git
